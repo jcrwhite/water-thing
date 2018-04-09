@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Water Thing</title>
+  <title>AquaSpec</title>
   <style>
     * {
       margin: 0;
@@ -54,15 +54,80 @@
 
 <body>
   <ul id="data"></ul>
+  <div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;"></div>
 
 
+  <!-- amCharts javascript sources -->
+  <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+  <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+  <script type="text/javascript">
+    const chart = AmCharts.makeChart("chartdiv",
+      {
+        "type": "serial",
+        "categoryField": "x",
+        "colors": [
+          "#31b762",
+          "#fdd400",
+          "#84b761",
+          "#cc4748",
+          "#cd82ad",
+          "#2f4074",
+          "#448e4d",
+          "#b7b83f",
+          "#b9783f",
+          "#b93e3d",
+          "#913167"
+        ],
+        "startDuration": 1,
+        "theme": "light",
+        "categoryAxis": {
+          "gridPosition": "start"
+        },
+        "trendLines": [],
+        "graphs": [
+          {
+            "balloonText": "[[title]] of [[x]]:[[value]]",
+            "fillAlphas": 0.7,
+            "id": "AmGraph-1",
+            "lineAlpha": 0,
+            "title": "Algae",
+            "valueField": "y"
+          }
+        ],
+        "guides": [],
+        "valueAxes": [
+          {
+            "id": "ValueAxis-1",
+            "title": "Light Measured"
+          }
+        ],
+        "allLabels": [],
+        "balloon": {},
+        "legend": {
+          "enabled": false
+        },
+        "titles": [
+          {
+            "id": "Title-1",
+            "size": 15,
+            "text": "AquaSpec"
+          }
+        ],
+        "dataProvider": []
+      }
+    );
+  </script>
+  <!-- Socket.IO -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
     $(function () {
       var socket = io();
       socket.on('data', function (data) {
-        $('#data').append($('<li>').text(data && JSON.stringify(data)));
+        chart.dataProvider = data;
+        chart.validateData();
+        // $('#data').append($('<li>').text(data && JSON.stringify(data)));
       });
     });
   </script>
