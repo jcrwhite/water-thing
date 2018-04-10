@@ -18,12 +18,12 @@ app.get('/', (req, res) => {
 });
 
 const formatData = (data) => {
-  let count = 249;
+  let count = 339;
   return _.map(_.drop(data.split('+').filter(Boolean)), (d) => {
-    count++;
+    count += 1.77;
     return {
-      x: count,
-      y: d.split('%')[0]
+      x: Math.floor(count),
+      y: d.split('%')[0] / 10
     }
   });
 }
