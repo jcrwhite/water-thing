@@ -21,7 +21,7 @@ let water = [];
 let max = 0;
 
 const reset = () => {
-  for (let i = 0; i < 288; i++) {
+  for (let i = 0; i < 10000; i++) {
     water[i] = {
       x: i,
       y: i
