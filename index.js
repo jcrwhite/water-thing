@@ -17,19 +17,73 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+let water = [];
+let max = 0;
+
+const reset = () => {
+  for (let i = 0; i < 288; i++) {
+    water[i] = {
+      x: i,
+      y: i
+    };
+  }
+}
+
+reset();
+
 const formatData = (data) => {
+  if (max > 1000) {
+    max = 0;
+    reset();
+  }
+  max++;
   let count = 339;
-  return _.map(_.drop(data.split('+').filter(Boolean)), (d) => {
+  let index = -1;
+  water = _.map(_.drop(data.split('+').filter(Boolean)), (d) => {
     count += 1.77;
+    index++;
     return {
       x: Math.floor(count),
-      y: d.split('%')[0] / 10
+      y: parseInt(d.split('%')[0]) + water[index].y
     }
+  });
+  return _.map(water, w => {
+    return {
+      x: w.x,
+      y: (w.y / max)
+    };
   });
 }
 
+/**
+ * % Difference from max value
+ */
+// const formatData = (data) => {
+//   if (max > 1000000) {
+//     reset();
+//   }
+//   max = 0;
+//   let count = -1;
+//   water = _.map(_.drop(data.split('+').filter(Boolean)), (d) => {
+//     count++;
+//     return {
+//       x: count,
+//       y: parseInt(d.split('%')[0]) + water[count].y
+//     }
+//   });
+//   console.log(water);
+//   return _.map(_.each(water, w => {
+//     max = w.y > max ? w.y : max;
+//   }), m => {
+//     return {
+//       x: m.x,
+//       y: (m.y / max)
+//     };
+//   });
+// }
+
 app.post('/', (req, res) => {
-  // console.log(req.body);
+  // console.log(formatData(req.body));
   io.emit('data', formatData(req.body));
   res.sendStatus(200);
 });
