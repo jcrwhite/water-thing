@@ -42,11 +42,12 @@ const formatData = (data) => {
   const data_array = _.drop(data.split('+').filter(Boolean));
   if (data_array.length > 200) {
     data_array.length = 200;
+    water.length = 200;
   }
-  water = _.map(data_array, (d) => {
+  _.each(data_array, (d) => {
     count += 1.77;
     index++;
-    return {
+    water[index] = {
       x: Math.floor(count),
       y: parseInt(d.split('%')[0]) + water[index].y
     }
