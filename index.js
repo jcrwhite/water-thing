@@ -39,7 +39,11 @@ const formatData = (data) => {
   max++;
   let count = 339;
   let index = -1;
-  water = _.map(_.drop(data.split('+').filter(Boolean)), (d) => {
+  const data_array = _.drop(data.split('+').filter(Boolean));
+  if (data_array.length > 288) {
+    data_array.length = 288;
+  }
+  water = _.map(data_array, (d) => {
     count += 1.77;
     index++;
     return {
