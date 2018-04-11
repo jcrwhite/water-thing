@@ -32,7 +32,7 @@ const reset = () => {
 reset();
 
 const formatData = (data) => {
-  if (max > 1000) {
+  if (max > 10) {
     max = 0;
     reset();
   }
