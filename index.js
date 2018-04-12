@@ -55,7 +55,7 @@ const formatData = (data) => {
   return _.map(water, w => {
     return {
       x: w.x,
-      y: (w.y / max)
+      y: (w.y < 100 ? 0 : w.y / max)
     };
   });
 }
